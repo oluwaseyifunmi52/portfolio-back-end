@@ -32,6 +32,24 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Portfolio Backend API',
+    version: '1.0.0',
+    documentation: '/api/health',
+    endpoints: {
+      health: '/api/health',
+      contact: '/api/contact',
+      projects: '/api/projects',
+      skills: '/api/skills',
+      services: '/api/services',
+      experience: '/api/experience',
+      education: '/api/education',
+    },
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
@@ -40,7 +58,6 @@ app.get('/api/health', (req, res) => {
     environment: env.NODE_ENV,
   });
 });
-
 app.use('/api/contact', contactRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);

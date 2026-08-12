@@ -13,6 +13,9 @@ function getTransporter() {
         user: env.EMAIL_USER,
         pass: env.EMAIL_PASS,
       },
+      connectionTimeout: 10000,
+      greetingTimeout: 5000,
+      socketTimeout: 15000,
     });
   }
   return transporter;

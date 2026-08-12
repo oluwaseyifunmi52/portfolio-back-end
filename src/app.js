@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { env, isProduction } from './config/env.js';
-import { connectDB } from './config/database.js';
+import { connectDB, isDbConnected } from './config/database.js';
+import { verifyEmailConnection } from './services/emailService.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 import contactRoutes from './routes/contactRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
@@ -62,14 +63,22 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
+  const dbStatus = isDbConnected();
+  const emailStatus = await verifyEmailConnection();
+  
   res.json({
     success: true,
-    status: 'healthy',
+    status: dbStatus && emailStatus ? 'healthy' : 'degraded',
     timestamp: new Date().toISOString(),
     environment: env.NODE_ENV,
+    checks: {
+      database: dbStatus ? 'connected' : 'disconnected',
+      email: emailStatus ? 'connected' : 'disconnected',
+    },
   });
 });
+
 app.use('/api/contact', contactRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);

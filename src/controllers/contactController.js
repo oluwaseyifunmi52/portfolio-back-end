@@ -1,9 +1,14 @@
 import { Contact } from '../models/Contact.js';
 import { sendContactEmail } from '../services/emailService.js';
 import { AppError } from '../utils/errors.js';
+import { isDbConnected } from '../config/database.js';
 
 export async function createContact(req, res, next) {
   try {
+    if (!isDbConnected()) {
+      throw new AppError('Database not available, please try again', 503);
+    }
+
     const { name, email, subject, message } = req.body;
 
     const contact = await Contact.create({
@@ -13,17 +18,15 @@ export async function createContact(req, res, next) {
       message,
     });
 
-    try {
-      await sendContactEmail({
-        name,
-        email,
-        subject,
-        message,
-        createdAt: contact.createdAt,
-      });
-    } catch (emailError) {
-      console.error('Failed to send contact email:', emailError);
-    }
+    sendContactEmail({
+      name,
+      email,
+      subject,
+      message,
+      createdAt: contact.createdAt,
+    }).catch((emailError) => {
+      console.error('Failed to send contact email (async):', emailError.message);
+    });
 
     res.status(201).json({
       success: true,
@@ -37,6 +40,10 @@ export async function createContact(req, res, next) {
 
 export async function getContacts(req, res, next) {
   try {
+    if (!isDbConnected()) {
+      throw new AppError('Database not available, please try again', 503);
+    }
+
     const { status, page = 1, limit = 20 } = req.query;
     const filter = {};
 
@@ -66,6 +73,10 @@ export async function getContacts(req, res, next) {
 
 export async function getContactById(req, res, next) {
   try {
+    if (!isDbConnected()) {
+      throw new AppError('Database not available, please try again', 503);
+    }
+
     const contact = await Contact.findById(req.params.id);
     if (!contact) {
       throw new AppError('Contact message not found', 404);
@@ -78,6 +89,10 @@ export async function getContactById(req, res, next) {
 
 export async function updateContactStatus(req, res, next) {
   try {
+    if (!isDbConnected()) {
+      throw new AppError('Database not available, please try again', 503);
+    }
+
     const { status } = req.body;
     const contact = await Contact.findByIdAndUpdate(
       req.params.id,
@@ -95,6 +110,10 @@ export async function updateContactStatus(req, res, next) {
 
 export async function deleteContact(req, res, next) {
   try {
+    if (!isDbConnected()) {
+      throw new AppError('Database not available, please try again', 503);
+    }
+
     const contact = await Contact.findByIdAndDelete(req.params.id);
     if (!contact) {
       throw new AppError('Contact message not found', 404);

@@ -20,7 +20,7 @@ app.use(helmet({
 const allowedOrigins = [
   env.FRONTEND_URL,
   'http://localhost:5173',
-  'http://localhost:3000', 'https://portfolio-back-end-1siw.onrender.com'
+  'http://localhost:3000', 'https://portfolio-back-end-1siw.onrender.com' 
 ];
 
 app.use(cors({

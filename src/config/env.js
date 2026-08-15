@@ -13,6 +13,7 @@ export const env = {
   PORT: parseInt(process.env.PORT || '5000', 10),
   MONGO_URI: process.env.MONGO_URI,
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
+
   EMAIL_HOST: process.env.EMAIL_HOST || 'smtp.gmail.com',
   EMAIL_PORT: parseInt(process.env.EMAIL_PORT || '587', 10),
   EMAIL_USER: process.env.EMAIL_USER,

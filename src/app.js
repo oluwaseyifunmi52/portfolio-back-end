@@ -22,14 +22,17 @@ const allowedOrigins = [
   env.FRONTEND_URL,
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5174',
+  'http://localhost:5175',
+  'http://127.0.0.1:5175',
   'http://localhost:3000',
-  'http://127.0.0.1:3000',
-  'https://portfolio-back-end-1siw.onrender.com'
+  'http://127.0.0.1:3000','https://my-portfolio-two-kohl-99.vercel.app',
 ];
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

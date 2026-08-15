@@ -10,11 +10,19 @@ function getResendClient() {
   return resend;
 }
 
+function sanitizeError(error) {
+  if (!error) return 'Unknown error';
+  const message = error.message || String(error);
+  return message.replace(/re_[a-zA-Z0-9]+/g, 're_***').replace(/key=[^&\s]+/g, 'key=***');
+}
+
 export async function sendContactEmail({ name, email, subject, message, createdAt }) {
   const client = getResendClient();
   
   if (!client) {
-    throw new Error('Resend client not initialized - RESEND_API_KEY missing');
+    const err = new Error('Resend client not initialized - RESEND_API_KEY missing');
+    console.error('Email sending failed:', sanitizeError(err));
+    throw err;
   }
 
   const html = `
@@ -77,20 +85,38 @@ Message: ${message}
 Received: ${new Date(createdAt).toLocaleString()}
   `;
 
-  const { data, error } = await client.emails.send({
-    from: env.EMAIL_FROM,
-    to: [env.EMAIL_TO],
-    subject: `Portfolio Contact: ${subject}`,
-    text,
-    html,
-  });
+  try {
+    const { data, error } = await client.emails.send({
+      from: env.EMAIL_FROM,
+      to: [env.EMAIL_TO],
+      subject: `Portfolio Contact: ${subject}`,
+      text,
+      html,
+    });
 
-  if (error) {
-    throw new Error(`Resend API error: ${error.message}`);
+    if (error) {
+      const err = new Error(`Resend API error: ${error.message}`);
+      console.error('Email sending failed:', sanitizeError(err), {
+        errorName: error.name,
+        statusCode: error.statusCode,
+      });
+      throw err;
+    }
+
+    console.log('Email sent via Resend:', data?.id);
+    return data;
+  } catch (error) {
+    if (error instanceof Error && error.message.startsWith('Resend API error:')) {
+      throw error;
+    }
+    const sanitized = sanitizeError(error);
+    console.error('Email sending failed:', sanitized, {
+      errorName: error?.name,
+      statusCode: error?.statusCode,
+      cause: error?.cause?.message ? sanitizeError(error.cause) : undefined,
+    });
+    throw new Error(`Failed to send email: ${sanitized}`);
   }
-
-  console.log('Email sent via Resend:', data?.id);
-  return data;
 }
 
 function escapeHtml(text) {
@@ -114,7 +140,7 @@ export async function verifyEmailConnection() {
     console.log('Resend client initialized successfully');
     return true;
   } catch (error) {
-    console.error('Email server connection failed:', error.message);
+    console.error('Email server connection failed:', sanitizeError(error));
     return false;
   }
 }

@@ -33,8 +33,7 @@ export async function createContact(req, res, next) {
 
       res.status(201).json({
         success: true,
-        message: 'Message sent successfully',
-        data: { id: contact._id },
+        message: 'Email sent successfully',
       });
     } catch (emailError) {
       console.error('Email sending failed:', emailError.message);

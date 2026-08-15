@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const requiredEnvVars = ['MONGO_URI', 'EMAIL_USER', 'EMAIL_PASS'];
+const requiredEnvVars = ['MONGO_URI', 'RESEND_API_KEY', 'EMAIL_FROM', 'EMAIL_TO'];
 const missingVars = requiredEnvVars.filter((v) => !process.env[v]);
 if (missingVars.length > 0) {
   console.error('Missing required environment variables:', missingVars.join(', '));
@@ -14,12 +14,8 @@ export const env = {
   MONGO_URI: process.env.MONGO_URI,
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
 
-  EMAIL_HOST: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  EMAIL_PORT: parseInt(process.env.EMAIL_PORT || '587', 10),
-  EMAIL_USER: process.env.EMAIL_USER,
-  EMAIL_PASS: process.env.EMAIL_PASS,
-  EMAIL_FROM: process.env.EMAIL_FROM || process.env.EMAIL_USER,
-  EMAIL_TO: process.env.EMAIL_TO || process.env.EMAIL_USER,
+  EMAIL_FROM: process.env.EMAIL_FROM,
+  EMAIL_TO: process.env.EMAIL_TO,
 
   RESEND_API_KEY: process.env.RESEND_API_KEY,
 };

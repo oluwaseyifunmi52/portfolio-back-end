@@ -1,9 +1,16 @@
 import { app, connectDB } from './app.js';
 import { env } from './config/env.js';
+import { verifyEmailConnection } from './services/emailService.js';
 
 async function startServer() {
   try {
     await connectDB();
+
+    console.log('Verifying email server connection...');
+    const emailConnected = await verifyEmailConnection();
+    if (!emailConnected) {
+      console.warn('WARNING: Email server connection failed. Contact form emails will not be sent.');
+    }
 
     const server = app.listen(env.PORT, () => {
       console.log(`

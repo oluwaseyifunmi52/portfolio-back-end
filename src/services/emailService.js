@@ -1,28 +1,21 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { env } from '../config/env.js';
 
-let transporter = null;
+let resend = null;
 
-function getTransporter() {
-  if (!transporter) {
-    transporter = nodemailer.createTransport({
-      host: env.EMAIL_HOST,
-      port: env.EMAIL_PORT,
-      secure: env.EMAIL_PORT === 465,
-      auth: {
-        user: env.EMAIL_USER,
-        pass: env.EMAIL_PASS,
-      },
-      connectionTimeout: 10000,
-      greetingTimeout: 5000,
-      socketTimeout: 15000,
-    });
+function getResendClient() {
+  if (!resend && env.RESEND_API_KEY) {
+    resend = new Resend(env.RESEND_API_KEY);
   }
-  return transporter;
+  return resend;
 }
 
 export async function sendContactEmail({ name, email, subject, message, createdAt }) {
-  const transporter = getTransporter();
+  const client = getResendClient();
+  
+  if (!client) {
+    throw new Error('Resend client not initialized - RESEND_API_KEY missing');
+  }
 
   const html = `
     <!DOCTYPE html>
@@ -84,13 +77,20 @@ Message: ${message}
 Received: ${new Date(createdAt).toLocaleString()}
   `;
 
-  await transporter.sendMail({
+  const { data, error } = await client.emails.send({
     from: env.EMAIL_FROM,
-    to: env.EMAIL_TO,
+    to: [env.EMAIL_TO],
     subject: `Portfolio Contact: ${subject}`,
     text,
     html,
   });
+
+  if (error) {
+    throw new Error(`Resend API error: ${error.message}`);
+  }
+
+  console.log('Email sent via Resend:', data?.id);
+  return data;
 }
 
 function escapeHtml(text) {
@@ -106,9 +106,12 @@ function escapeHtml(text) {
 
 export async function verifyEmailConnection() {
   try {
-    const transporter = getTransporter();
-    await transporter.verify();
-    console.log('Email server connection verified');
+    const client = getResendClient();
+    if (!client) {
+      console.error('Email server connection failed: RESEND_API_KEY not configured');
+      return false;
+    }
+    console.log('Resend client initialized successfully');
     return true;
   } catch (error) {
     console.error('Email server connection failed:', error.message);

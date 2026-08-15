@@ -20,6 +20,8 @@ export const env = {
   EMAIL_PASS: process.env.EMAIL_PASS,
   EMAIL_FROM: process.env.EMAIL_FROM || process.env.EMAIL_USER,
   EMAIL_TO: process.env.EMAIL_TO || process.env.EMAIL_USER,
+
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
 };
 
 export const isProduction = env.NODE_ENV === 'production';

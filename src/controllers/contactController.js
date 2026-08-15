@@ -18,21 +18,28 @@ export async function createContact(req, res, next) {
       message,
     });
 
-    sendContactEmail({
-      name,
-      email,
-      subject,
-      message,
-      createdAt: contact.createdAt,
-    }).catch((emailError) => {
-      console.error('Failed to send contact email (async):', emailError.message);
-    });
+    console.log('Contact request received:', { name, email, subject, contactId: contact._id });
 
-    res.status(201).json({
-      success: true,
-      message: 'Message sent successfully',
-      data: { id: contact._id },
-    });
+    try {
+      console.log('Attempting to send contact email...');
+      await sendContactEmail({
+        name,
+        email,
+        subject,
+        message,
+        createdAt: contact.createdAt,
+      });
+      console.log('Email sent successfully for contact:', contact._id);
+
+      res.status(201).json({
+        success: true,
+        message: 'Message sent successfully',
+        data: { id: contact._id },
+      });
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError.message);
+      throw new AppError('Failed to send email. Please try again later.', 500);
+    }
   } catch (error) {
     next(error);
   }

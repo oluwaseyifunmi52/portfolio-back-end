@@ -1,0 +1,21 @@
+Attempting MongoDB connection (Direct)...
+Attempting MongoDB connection (SRV)...
+MongoDB connected: ac-pmnvmms-shard-00-02.p3ewlmm.mongodb.net (SRV)
+Verifying email server connection...
+
+╔══════════════════════════════════════════════════════════════╗
+║  Portfolio Backend Server                                     ║
+║  Environment: development                                    ║
+║  Port: 5000                                            ║
+║  API Base: http://localhost:5000/api                                         ║
+╚══════════════════════════════════════════════════════════════╝
+      
+2026-08-15T03:20:13.508Z - POST /api/contact
+Contact request received: {
+  name: 'Test User',
+  email: 'test@example.com',
+  subject: 'Test Subject',
+  contactId: new ObjectId('6a7fdaedcdef131ddea4a775')
+}
+Attempting to send contact email...
+Sending operational error response: Failed to send email. Please try again later.

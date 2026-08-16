@@ -5,231 +5,476 @@ import { Service } from '../models/Service.js';
 import { Experience } from '../models/Experience.js';
 import { Education } from '../models/Education.js';
 
+
+
 const projects = [
   {
     id: 'portfolio-website',
-    title: 'Portfolio Website',
-    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80',
-    description: 'A modern, responsive portfolio website built with React and Vite, featuring smooth animations and a clean design to showcase projects and skills.',
-    problem: 'Needed a professional online presence to showcase development skills and projects to potential employers and clients.',
-    solution: 'Built a fully responsive portfolio with React, featuring project filtering, smooth scroll animations, and a contact form with backend integration.',
+    title: 'Personal Portfolio Website',
+    image:
+      'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80',
+    description:
+      'A modern and responsive full-stack developer portfolio website built to showcase projects, technical skills, experience, education, and contact information.',
+    problem:
+      'Needed a professional online presence where potential employers and clients could easily learn about my skills, projects, and development experience.',
+    solution:
+      'Built a responsive portfolio using React and Vite with a Node.js and Express backend connected to MongoDB.',
     keyFeatures: [
-      'Responsive design for all devices',
-      'Smooth scroll animations with Framer Motion',
-      'Project filtering by category',
-      'Contact form with email notifications',
-      'Dark/light mode toggle',
-      'SEO optimized with meta tags'
+      'Responsive design for desktop, tablet, and mobile',
+      'Project showcase and project details',
+      'Skills and technology section',
+      'Experience and education sections',
+      'Contact form with backend integration',
+      'MongoDB database integration',
+      'REST API integration',
+      'Modern responsive user interface',
     ],
-    technologies: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'React Router', 'Node.js', 'Express', 'MongoDB'],
-    myContribution: 'Full-stack development including frontend architecture, backend API, database design, and deployment configuration.',
+    technologies: [
+      'React',
+      'Vite',
+      'JavaScript',
+      'HTML',
+      'CSS',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Mongoose',
+      'Git',
+      'GitHub',
+    ],
+    myContribution:
+      'Designed and developed the frontend and backend, created REST API endpoints, connected MongoDB, implemented the database models, and configured the application for deployment.',
     challenges: [
-      'Optimizing animation performance on mobile devices',
-      'Implementing smooth project filtering without layout shift',
-      'Configuring CORS and environment variables for production'
+      'Connecting the React frontend to the Express backend',
+      'Designing a clean MongoDB data structure',
+      'Making the application responsive across different screen sizes',
+      'Handling API requests and errors',
     ],
     solutions: [
-      'Used Framer Motion with reduced motion preferences',
-      'Implemented CSS Grid with proper gap handling',
-      'Set up proper proxy configuration for development and production'
+      'Created reusable API services for frontend-backend communication',
+      'Used Mongoose models for structured MongoDB data',
+      'Implemented responsive layouts using CSS',
+      'Added proper API error handling and validation',
     ],
-    github: 'https://github.com/username/portfolio',
-    demo: 'https://portfolio.example.com',
+    github: 'https://github.com/oluwaseyifunmi52/portfolio',
+    demo: '',
     featured: true,
     video: null,
   },
+
+  {
+    id: 'royal-higher-life-website',
+    title: 'Royal Higher Life Christian Ministries Website',
+    image:
+      'https://images.unsplash.com/photo-1507692049790-de58290a4334?w=800&q=80',
+    description:
+      'A modern responsive ministry website designed to provide information about the ministry, sermons, events, prayer requests, donations, and online engagement.',
+    problem:
+      'The ministry needed a professional online platform where visitors could learn about the ministry, access media content, submit prayer requests, and support the organization.',
+    solution:
+      'Developed a full-stack web application using React on the frontend and Node.js, Express, and MongoDB on the backend.',
+    keyFeatures: [
+      'Responsive ministry website',
+      'About and mission sections',
+      'Sermon and media section',
+      'Prayer request functionality',
+      'Contact form',
+      'Online donation system',
+      'Event management',
+      'Member management',
+      'Admin dashboard',
+      'REST API backend',
+      'MongoDB database',
+    ],
+    technologies: [
+      'React',
+      'Vite',
+      'JavaScript',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Mongoose',
+      'REST API',
+      'Git',
+      'GitHub',
+    ],
+    myContribution:
+      'Worked on the frontend interface, backend API, MongoDB database integration, authentication, and application functionality.',
+    challenges: [
+      'Connecting multiple frontend pages to backend APIs',
+      'Managing authentication and protected routes',
+      'Designing database models for different types of ministry data',
+      'Building a responsive experience for mobile users',
+    ],
+    solutions: [
+      'Created reusable API service functions',
+      'Implemented authentication and protected routes',
+      'Separated database models according to application features',
+      'Used responsive layouts for different screen sizes',
+    ],
+    github: '',
+    demo: '',
+    featured: true,
+    video: null,
+  },
+
   {
     id: 'ecommerce-platform',
     title: 'E-Commerce Platform',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
-    description: 'A full-featured e-commerce platform with user authentication, product management, shopping cart, and payment integration.',
-    problem: 'Small businesses needed an affordable, customizable online store solution without relying on expensive SaaS platforms.',
-    solution: 'Developed a scalable e-commerce platform with MERN stack, featuring admin dashboard, inventory management, and Stripe payment integration.',
+    image:
+      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    description:
+      'A full-stack e-commerce application designed to demonstrate product management, authentication, shopping cart functionality, and online payments.',
+    problem:
+      'Small businesses need affordable online platforms that allow customers to browse products, manage their carts, and place orders online.',
+    solution:
+      'Built an e-commerce application using the MERN stack with a React frontend, Express backend, and MongoDB database.',
     keyFeatures: [
-      'User authentication with JWT',
-      'Product catalog with categories and filters',
-      'Shopping cart with persistence',
-      'Stripe payment integration',
-      'Admin dashboard for orders and products',
-      'Email notifications for orders',
-      'Inventory tracking',
-      'Review and rating system'
+      'User registration and login',
+      'JWT authentication',
+      'Product catalog',
+      'Product categories',
+      'Shopping cart',
+      'Order management',
+      'Admin product management',
+      'User dashboard',
+      'Responsive design',
+      'REST API',
     ],
-    technologies: ['React', 'Redux Toolkit', 'Node.js', 'Express', 'MongoDB', 'Stripe', 'JWT', 'Tailwind CSS'],
-    myContribution: 'Led full-stack development including API design, database schema, payment integration, and deployment pipeline.',
+    technologies: [
+      'React',
+      'JavaScript',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Mongoose',
+      'JWT',
+      'REST API',
+      'CSS',
+    ],
+    myContribution:
+      'Developed the frontend and backend architecture, created REST API endpoints, designed MongoDB models, implemented authentication, and connected the frontend to the backend.',
     challenges: [
-      'Handling concurrent inventory updates',
-      'Securing payment flow with Stripe webhooks',
-      'Managing complex state with Redux'
+      'Managing authentication between frontend and backend',
+      'Designing product and order database structures',
+      'Managing shopping cart state',
+      'Protecting administrative functionality',
     ],
     solutions: [
-      'Implemented optimistic locking for inventory',
-      'Used idempotency keys for webhook processing',
-      'Structured Redux with RTK Query for caching'
+      'Implemented JWT-based authentication',
+      'Created separate MongoDB models for products, users, and orders',
+      'Created reusable frontend state and API services',
+      'Protected admin routes with authentication middleware',
     ],
-    github: 'https://github.com/username/ecommerce',
-    demo: 'https://shop.example.com',
+    github: '',
+    demo: '',
     featured: true,
     video: null,
   },
+
   {
     id: 'task-management-app',
-    title: 'Task Management App',
-    image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&q=80',
-    description: 'A collaborative task management application with real-time updates, team workspaces, and drag-and-drop board views.',
-    problem: 'Teams needed a lightweight, self-hosted alternative to Trello/Jira with real-time collaboration features.',
-    solution: 'Built a real-time task manager using WebSockets for live updates, with Kanban boards, team workspaces, and role-based permissions.',
+    title: 'Task Management Application',
+    image:
+      'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&q=80',
+    description:
+      'A task management application designed to help users organize projects, tasks, deadlines, and daily activities.',
+    problem:
+      'Users need a simple way to organize tasks, track progress, and manage their work from a single application.',
+    solution:
+      'Created a responsive task management application with a React frontend and Node.js, Express, and MongoDB backend.',
     keyFeatures: [
-      'Real-time collaboration with Socket.io',
-      'Kanban board with drag-and-drop',
-      'Team workspaces and projects',
-      'Role-based access control',
-      'Task assignments and due dates',
-      'Comments and mentions',
-      'Activity feed',
-      'Dark mode support'
+      'User authentication',
+      'Create and manage tasks',
+      'Task status management',
+      'Task deadlines',
+      'Task filtering',
+      'User dashboard',
+      'Responsive interface',
+      'REST API',
+      'MongoDB persistence',
     ],
-    technologies: ['React', 'Socket.io', 'Node.js', 'Express', 'MongoDB', 'Redis', 'Tailwind CSS', 'dnd-kit'],
-    myContribution: 'Designed real-time architecture, implemented WebSocket event handling, and built the drag-and-drop Kanban board.',
+    technologies: [
+      'React',
+      'JavaScript',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Mongoose',
+      'JWT',
+      'REST API',
+      'CSS',
+    ],
+    myContribution:
+      'Built the frontend interface, backend API, database models, authentication flow, and task management functionality.',
     challenges: [
-      'Synchronizing state across multiple clients',
-      'Optimizing WebSocket connection management',
-      'Implementing smooth drag-and-drop with real-time updates'
+      'Keeping task data synchronized with the database',
+      'Implementing authentication',
+      'Creating a simple and responsive dashboard',
     ],
     solutions: [
-      'Used operational transformation for conflict resolution',
-      'Implemented connection pooling and heartbeat mechanism',
-      'Separated optimistic updates from server confirmation'
+      'Used REST APIs for frontend-backend communication',
+      'Implemented JWT authentication',
+      'Created reusable React components and responsive layouts',
     ],
-    github: 'https://github.com/username/task-manager',
-    demo: 'https://tasks.example.com',
+    github: '',
+    demo: '',
     featured: false,
     video: null,
   },
 ];
 
+
 const skills = [
-  { name: 'React', percentage: 95, category: 'frontend' },
-  { name: 'TypeScript', percentage: 90, category: 'frontend' },
-  { name: 'Next.js', percentage: 85, category: 'frontend' },
-  { name: 'Tailwind CSS', percentage: 95, category: 'frontend' },
-  { name: 'Framer Motion', percentage: 80, category: 'frontend' },
-  { name: 'Node.js', percentage: 90, category: 'backend' },
-  { name: 'Express', percentage: 92, category: 'backend' },
-  { name: 'MongoDB', percentage: 88, category: 'database' },
-  { name: 'PostgreSQL', percentage: 80, category: 'database' },
-  { name: 'Redis', percentage: 75, category: 'database' },
-  { name: 'Docker', percentage: 85, category: 'tools' },
-  { name: 'Git', percentage: 95, category: 'tools' },
-  { name: 'CI/CD', percentage: 80, category: 'tools' },
-  { name: 'AWS', percentage: 70, category: 'tools' },
-  { name: 'GraphQL', percentage: 75, category: 'backend' },
-  { name: 'WebSockets', percentage: 80, category: 'backend' },
+  {
+    name: 'HTML',
+    percentage: 85,
+    category: 'frontend',
+  },
+  {
+    name: 'CSS',
+    percentage: 80,
+    category: 'frontend',
+  },
+  {
+    name: 'JavaScript',
+    percentage: 80,
+    category: 'frontend',
+  },
+  {
+    name: 'React',
+    percentage: 75,
+    category: 'frontend',
+  },
+  {
+    name: 'Vite',
+    percentage: 75,
+    category: 'frontend',
+  },
+  {
+    name: 'Node.js',
+    percentage: 75,
+    category: 'backend',
+  },
+  {
+    name: 'Express',
+    percentage: 75,
+    category: 'backend',
+  },
+  {
+    name: 'REST API',
+    percentage: 75,
+    category: 'backend',
+  },
+  {
+    name: 'MongoDB',
+    percentage: 75,
+    category: 'database',
+  },
+  {
+    name: 'Mongoose',
+    percentage: 70,
+    category: 'database',
+  },
+  {
+    name: 'JWT Authentication',
+    percentage: 70,
+    category: 'backend',
+  },
+  {
+    name: 'Git',
+    percentage: 75,
+    category: 'tools',
+  },
+  {
+    name: 'GitHub',
+    percentage: 75,
+    category: 'tools',
+  },
 ];
+
 
 const services = [
   {
-    title: 'Full-Stack Web Development',
-    description: 'Building complete web applications from concept to deployment using modern technologies like React, Node.js, and cloud platforms.',
+    title: 'Frontend Web Development',
+    description:
+      'Building responsive and user-friendly websites and web applications using HTML, CSS, JavaScript, React, and Vite.',
     icon: 'code',
   },
+
   {
-    title: 'API Design & Development',
-    description: 'Creating robust RESTful APIs and GraphQL endpoints with proper authentication, validation, documentation, and testing.',
+    title: 'Full-Stack Web Development',
+    description:
+      'Developing complete web applications with React on the frontend and Node.js, Express, and MongoDB on the backend.',
+    icon: 'code',
+  },
+
+  {
+    title: 'REST API Development',
+    description:
+      'Creating structured REST APIs with Express and Node.js for authentication, data management, and communication between frontend and backend applications.',
     icon: 'api',
   },
+
   {
-    title: 'Database Design & Optimization',
-    description: 'Designing efficient database schemas, writing optimized queries, and implementing caching strategies for scalable applications.',
+    title: 'MongoDB Database Development',
+    description:
+      'Creating and managing MongoDB databases and Mongoose models for web applications.',
     icon: 'database',
   },
+
   {
-    title: 'DevOps & Cloud Deployment',
-    description: 'Setting up CI/CD pipelines, containerizing applications with Docker, and deploying to cloud platforms like AWS, Vercel, and Render.',
-    icon: 'cloud',
+    title: 'Authentication & Authorization',
+    description:
+      'Implementing secure user authentication and protected application features using JWT and backend middleware.',
+    icon: 'security',
   },
+
   {
-    title: 'Real-Time Applications',
-    description: 'Building collaborative features with WebSockets, Server-Sent Events, and real-time databases for instant user interactions.',
-    icon: 'wifi',
-  },
-  {
-    title: 'Performance Optimization',
-    description: 'Improving application speed through code splitting, lazy loading, caching strategies, and bundle optimization.',
-    icon: 'speed',
+    title: 'Responsive Web Design',
+    description:
+      'Creating websites that work properly across desktop computers, tablets, and mobile devices.',
+    icon: 'responsive',
   },
 ];
 
+
+
 const experiences = [
   {
-    role: 'Senior Full-Stack Developer',
-    company: 'Tech Solutions Inc.',
-    duration: '2022 - Present',
-    description: 'Leading development of enterprise web applications, mentoring junior developers, and architecting scalable solutions for clients across various industries.',
-    technologies: ['React', 'Node.js', 'TypeScript', 'AWS', 'Docker', 'PostgreSQL'],
+    role: 'Junior Full-Stack Web Developer',
+    company: 'Independent Projects',
+    duration: '2026 - Present',
+    description:
+      'Developing full-stack web applications using React, JavaScript, Node.js, Express, and MongoDB. Building REST APIs, authentication systems, dashboards, and responsive user interfaces while continuously improving software development skills.',
+    technologies: [
+      'React',
+      'JavaScript',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Mongoose',
+      'JWT',
+      'Vite',
+      'Git',
+      'GitHub',
+    ],
   },
+
   {
-    role: 'Full-Stack Developer',
-    company: 'Digital Agency',
-    duration: '2020 - 2022',
-    description: 'Built and maintained multiple client projects including e-commerce platforms, dashboards, and custom CMS solutions. Collaborated with designers and project managers to deliver high-quality products.',
-    technologies: ['React', 'Vue.js', 'Express', 'MongoDB', 'GraphQL', 'Tailwind CSS'],
+    role: 'Customer Service Representative',
+    company: 'Class54 Educational Practice App',
+    duration: '2024 - 2025',
+    description:
+      'Provided customer support and assisted users with questions and issues related to the educational practice platform. Communicated with users and helped resolve problems effectively.',
+    technologies: [
+      'Customer Support',
+      'Communication',
+      'Problem Solving',
+    ],
   },
+
   {
-    role: 'Frontend Developer',
-    company: 'StartupXYZ',
-    duration: '2018 - 2020',
-    description: 'Developed responsive user interfaces for SaaS products, implemented complex animations, and optimized performance for large-scale applications.',
-    technologies: ['React', 'Redux', 'SASS', 'Webpack', 'Jest', 'Cypress'],
+    role: 'Electrical & Solar Technician',
+    company: 'Independent / Contract Work',
+    duration: '2016 - Present',
+    description:
+      'Worked on electrical installation, house wiring, solar installation, electrical maintenance, and related technical projects. Developed strong practical problem-solving and troubleshooting skills.',
+    technologies: [
+      'Electrical Installation',
+      'House Wiring',
+      'Solar Installation',
+      'Electrical Maintenance',
+      'Troubleshooting',
+    ],
   },
 ];
+
 
 const education = [
   {
     degree: 'Bachelor of Science in Computer Science',
-    school: 'University of Technology',
-    duration: '2014 - 2018',
-    description: 'Focused on software engineering, algorithms, data structures, and web technologies. Graduated with honors. Capstone project: Real-time collaborative code editor.',
+    school: 'University of the People',
+    duration: '2026 - Present',
+    description:
+      'Currently studying Computer Science with a focus on software development, programming, computer science fundamentals, and web technologies.',
   },
+
   {
-    degree: 'AWS Certified Solutions Architect',
-    school: 'Amazon Web Services',
-    duration: '2021',
-    description: 'Professional certification covering architecting on AWS, security, migration, and cost optimization strategies.',
+    degree: 'National Diploma in Electrical/Electronics Engineering',
+    school: 'Lagos State Polytechnic',
+    duration: 'Completed 2023',
+    description:
+      'Studied electrical and electronics engineering with practical experience in electrical systems, maintenance, troubleshooting, and related technical work.',
   },
 ];
 
+
+
 async function seedDatabase() {
   try {
+    console.log('Connecting to database...');
+
     await connectDB();
-    console.log('Connected to database');
+
+    console.log('Connected to database successfully.');
+
 
     await Project.deleteMany({});
     await Project.insertMany(projects);
+
     console.log(`Seeded ${projects.length} projects`);
+
+  
 
     await Skill.deleteMany({});
     await Skill.insertMany(skills);
+
     console.log(`Seeded ${skills.length} skills`);
+
+    
 
     await Service.deleteMany({});
     await Service.insertMany(services);
+
     console.log(`Seeded ${services.length} services`);
+
+   
 
     await Experience.deleteMany({});
     await Experience.insertMany(experiences);
+
     console.log(`Seeded ${experiences.length} experiences`);
+
 
     await Education.deleteMany({});
     await Education.insertMany(education);
+
     console.log(`Seeded ${education.length} education entries`);
 
-    console.log('\n✅ Database seeded successfully!');
+ 
+
+    console.log('\n========================================');
+    console.log('DATABASE SEEDED SUCCESSFULLY');
+    console.log('========================================');
+    console.log(`Projects:    ${projects.length}`);
+    console.log(`Skills:      ${skills.length}`);
+    console.log(`Services:    ${services.length}`);
+    console.log(`Experience:  ${experiences.length}`);
+    console.log(`Education:   ${education.length}`);
+    console.log('========================================\n');
+
     process.exit(0);
   } catch (error) {
-    console.error('❌ Seeding failed:', error);
+    console.error('\n========================================');
+    console.error('DATABASE SEEDING FAILED');
+    console.error('========================================');
+    console.error(error);
+    console.error('========================================\n');
+
     process.exit(1);
   }
 }
+
 
 seedDatabase();

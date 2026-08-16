@@ -4,8 +4,16 @@ export function errorHandler(err, req, res, next) {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
+  console.error('Error handler caught:', {
+    message: err.message,
+    statusCode: err.statusCode,
+    isOperational: err.isOperational,
+    name: err.name,
+    stack: err.stack,
+  });
+
   if (process.env.NODE_ENV === 'development') {
-    console.error('Error:', err);
+    console.error('Full error:', err);
   }
 
   if (err.name === 'ValidationError') {
@@ -23,9 +31,11 @@ export function errorHandler(err, req, res, next) {
   }
 
   if (err instanceof AppError && err.isOperational) {
+    console.log('Sending operational error response:', err.message);
     return res.status(err.statusCode).json({ success: false, message: err.message });
   }
 
+  console.log('Sending generic error response');
   return res.status(500).json({
     success: false,
     message: process.env.NODE_ENV === 'production'

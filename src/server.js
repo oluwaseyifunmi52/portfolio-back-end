@@ -1,6 +1,7 @@
 import { app, connectDB } from './app.js';
 import { env } from './config/env.js';
 import { verifyEmailConnection } from './services/emailService.js';
+import { seedIfEmpty } from './utils/seed.js';
 
 async function startServer() {
   try {
@@ -12,14 +13,16 @@ async function startServer() {
       console.warn('WARNING: Email server connection failed. Contact form emails will not be sent.');
     }
 
-    const server = app.listen(env.PORT, () => {
+    await seedIfEmpty();
+
+    const server = app.listen(env.PORT, '0.0.0.0', () => {
       console.log(`
 ╔══════════════════════════════════════════════════════════════╗
 ║  Portfolio Backend Server                                     ║
 ║  Environment: ${env.NODE_ENV.padEnd(47)}║
 ║  Port: ${String(env.PORT).padEnd(48)}║
 ║  API Base: http://localhost:${env.PORT}/api${' '.repeat(41)}║
-╚══════════════════════════════════════════════════════════════╝
+╚════════════════════════════════════════════════════════════════╝
       `);
     });
 

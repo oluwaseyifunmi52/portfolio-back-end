@@ -16,7 +16,8 @@ const skillSchema = new mongoose.Schema({
   category: {
     type: String,
     required: [true, 'Category is required'],
-    enum: ['frontend', 'backend', 'database', 'tools', 'other'],
+    enum: ['frontend', 'backend', 'database', 'auth', 'tools', 'concepts'],
+    default: 'other',
   },
 }, {
   timestamps: true,

@@ -10,12 +10,6 @@ dotenv.config();
 
 const requiredEnvVars = [
   'MONGO_URI',
-  'EMAIL_HOST',
-  'EMAIL_PORT',
-  'EMAIL_USER',
-  'EMAIL_PASS',
-  'EMAIL_FROM',
-  'EMAIL_TO',
 ];
 
 /*
@@ -54,26 +48,6 @@ if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65535) {
 
 /*
 |--------------------------------------------------------------------------
-| Parse EMAIL_PORT
-|--------------------------------------------------------------------------
-*/
-
-const EMAIL_PORT = Number(process.env.EMAIL_PORT);
-
-if (
-  !Number.isInteger(EMAIL_PORT) ||
-  EMAIL_PORT < 1 ||
-  EMAIL_PORT > 65535
-) {
-  console.error(
-    'Invalid EMAIL_PORT. EMAIL_PORT must be an integer between 1 and 65535.'
-  );
-
-  process.exit(1);
-}
-
-/*
-|--------------------------------------------------------------------------
 | Environment Configuration
 |--------------------------------------------------------------------------
 */
@@ -89,23 +63,23 @@ export const env = {
     process.env.FRONTEND_URL?.trim() ||
     'http://localhost:5173',
 
+
   /*
   |--------------------------------------------------------------------------
-  | Email / SMTP Configuration
+  | Email / Resend Configuration (optional)
   |--------------------------------------------------------------------------
+  | Email is only needed for the contact form notifications. If these are
+  | not configured the API still runs; contact submissions are stored in
+  | the database and email sending is skipped with a warning.
   */
 
-  EMAIL_HOST: process.env.EMAIL_HOST.trim(),
+  RESEND_API_KEY: process.env.RESEND_API_KEY?.trim() || '',
 
-  EMAIL_PORT,
+  EMAIL_FROM: process.env.EMAIL_FROM?.trim() || '',
 
-  EMAIL_USER: process.env.EMAIL_USER.trim(),
+  EMAIL_TO: process.env.EMAIL_TO?.trim() || '',
 
-  EMAIL_PASS: process.env.EMAIL_PASS.trim(),
-
-  EMAIL_FROM: process.env.EMAIL_FROM.trim(),
-
-  EMAIL_TO: process.env.EMAIL_TO.trim(),
+  EMAIL_ENABLED: Boolean(process.env.RESEND_API_KEY?.trim()),
 };
 
 /*

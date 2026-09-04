@@ -1,28 +1,21 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { env } from '../config/env.js';
 
-let transporter = null;
+let resend = null;
+let resendChecked = false;
 
-function getTransporter() {
-  if (!transporter) {
-    const port = Number(env.EMAIL_PORT);
-
-    transporter = nodemailer.createTransport({
-      host: env.EMAIL_HOST,
-      port,
-      secure: port === 465,
-      requireTLS: port === 587,
-      auth: {
-        user: env.EMAIL_USER,
-        pass: env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: true,
-      },
-    });
+function getResendClient() {
+  if (!resendChecked) {
+    resendChecked = true;
+    if (!env.RESEND_API_KEY || !env.EMAIL_FROM || !env.EMAIL_TO) {
+      console.warn(
+        'Email sending is disabled: RESEND_API_KEY, EMAIL_FROM, or EMAIL_TO is not configured.'
+      );
+      return null;
+    }
+    resend = new Resend(env.RESEND_API_KEY);
   }
-
-  return transporter;
+  return resend;
 }
 
 /**
@@ -36,15 +29,11 @@ function sanitizeError(error) {
   const message = error.message || String(error);
 
   return message
-    // Hide email addresses
     .replace(
       /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
       '***@***.***'
     )
-    // Hide password values
-    .replace(/pass(?:word)?[=:]\S+/gi, 'pass=***')
-    // Hide long hexadecimal tokens/IDs
-    .replace(/[a-f0-9]{16,}/gi, '***');
+    .replace(/re_[a-zA-Z0-9]{24,}/g, 're_***');
 }
 
 /**
@@ -58,10 +47,10 @@ function escapeHtml(value) {
   const text = String(value);
 
   const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
+    '&': '&',
+    '<': '<',
+    '>': '>',
+    '"': '"',
     "'": '&#039;',
   };
 
@@ -69,7 +58,7 @@ function escapeHtml(value) {
 }
 
 /**
- * Send a contact form email.
+ * Send a contact form email via Resend.
  */
 export async function sendContactEmail({
   name,
@@ -78,7 +67,12 @@ export async function sendContactEmail({
   message,
   createdAt,
 }) {
-  const client = getTransporter();
+  const client = getResendClient();
+
+  if (!client) {
+    console.warn('Email sending skipped: Resend is not configured.');
+    return { skipped: true };
+  }
 
   const safeName = escapeHtml(name);
   const safeEmail = escapeHtml(email);
@@ -243,7 +237,7 @@ export async function sendContactEmail({
   `;
 
   const text = `
-New Contact Message - Portfolio Website
+Portfolio Contact Form
 
 Name: ${name}
 Email: ${email}
@@ -257,28 +251,29 @@ ${formattedDate}
   `.trim();
 
   try {
-    const info = await client.sendMail({
+    const { data, error } = await client.emails.send({
       from: env.EMAIL_FROM,
-      to: env.EMAIL_TO,
+      to: [env.EMAIL_TO],
       replyTo: email,
       subject: `Portfolio Contact: ${subject}`,
       text,
       html,
     });
 
-    console.log(
-      `Email sent successfully via Nodemailer: ${info.messageId}`
-    );
+    if (error) {
+      console.error('Resend API error:', sanitizeError(error));
+      throw new Error(error.message || 'Failed to send email via Resend');
+    }
 
-    return info;
+    console.log(`Email sent successfully via Resend: ${data?.id}`);
+
+    return data;
   } catch (error) {
     const sanitized = sanitizeError(error);
 
     console.error('Email sending failed:', sanitized, {
       errorName: error?.name,
-      code: error?.code,
-      command: error?.command,
-      responseCode: error?.responseCode,
+      message: error?.message,
     });
 
     throw error;
@@ -286,20 +281,34 @@ ${formattedDate}
 }
 
 /**
- * Verify SMTP connection.
+ * Verify Resend API connection.
  */
 export async function verifyEmailConnection() {
   try {
-    const client = getTransporter();
+    const client = getResendClient();
 
-    await client.verify();
+    if (!client) {
+      return false;
+    }
 
-    console.log('SMTP connection verified successfully');
+    const { data, error } = await client.emails.send({
+      from: env.EMAIL_FROM,
+      to: [env.EMAIL_TO],
+      subject: 'Portfolio Backend - Connection Test',
+      text: 'This is a test email to verify the Resend API connection.',
+    });
+
+    if (error) {
+      console.error('Resend connection test failed:', sanitizeError(error));
+      return false;
+    }
+
+    console.log('Resend connection verified successfully');
 
     return true;
   } catch (error) {
     console.error(
-      'Email server connection failed:',
+      'Resend connection failed:',
       sanitizeError(error)
     );
 

@@ -19,12 +19,17 @@ const experienceSchema = new mongoose.Schema({
     trim: true,
     maxlength: [50, 'Duration cannot exceed 50 characters'],
   },
-  description: {
+  location: {
+    type: String,
+    trim: true,
+    maxlength: [100, 'Location cannot exceed 100 characters'],
+  },
+  description: [{
     type: String,
     required: [true, 'Description is required'],
     trim: true,
-    maxlength: [1000, 'Description cannot exceed 1000 characters'],
-  },
+    maxlength: [2000, 'Description item cannot exceed 2000 characters'],
+  }],
   technologies: [{
     type: String,
     trim: true,

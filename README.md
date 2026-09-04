@@ -20,7 +20,7 @@ A RESTful API built with Node.js, Express, and MongoDB for a portfolio website.
 - **Runtime**: Node.js 20+
 - **Framework**: Express.js
 - **Database**: MongoDB with Mongoose
-- **Email**: Nodemailer
+- **Email**: Resend
 - **Validation**: Zod
 - **Security**: Helmet, CORS, Rate Limiting
 - **Dev Tools**: Nodemon
@@ -98,18 +98,34 @@ This populates the database with sample data matching the frontend.
 
 ## Contact Form Email
 
-The contact form sends emails using Nodemailer. Configure in `.env`:
+The contact form sends emails using **Resend**. Configure in `.env`:
 
 ```env
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
-EMAIL_FROM=your-email@gmail.com
+RESEND_API_KEY=re_xxxxxxxxxxxx
+EMAIL_FROM=noreply@yourdomain.com
 EMAIL_TO=recipient@gmail.com
 ```
 
-For Gmail, use an App Password (not your regular password).
+### Important: Sender Email Configuration
+
+**For production, you MUST use a verified custom domain in Resend.** 
+
+The default `onboarding@resend.dev` sender ONLY works for sending emails to the email address associated with your Resend account (the one you used to sign up). It will NOT deliver to arbitrary recipient emails in production.
+
+To send contact form submissions to any email address:
+1. Add and verify a custom domain in [Resend Domains](https://resend.com/domains)
+2. Set `EMAIL_FROM` to an address on your verified domain (e.g., `noreply@yourdomain.com`)
+3. The `EMAIL_TO` can be any email address
+
+### Render Environment Variables
+
+Add these in your Render service dashboard:
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `RESEND_API_KEY` | Your Resend API key (starts with `re_`) | **Yes** |
+| `EMAIL_FROM` | Verified sender address (e.g., `noreply@yourdomain.com`) | **Yes** |
+| `EMAIL_TO` | Where contact form messages are delivered | **Yes** |
 
 ## Deployment (Render)
 
@@ -120,7 +136,13 @@ For Gmail, use an App Password (not your regular password).
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
    - **Health Check Path**: `/api/health`
-5. Add environment variables in Render dashboard
+5. Add environment variables in Render dashboard:
+   - `MONGO_URI` - MongoDB connection string
+   - `RESEND_API_KEY` - Your Resend API key
+   - `EMAIL_FROM` - Verified sender address (e.g., `noreply@yourdomain.com`)
+   - `EMAIL_TO` - Recipient email for contact form
+   - `FRONTEND_URL` - Your Vercel frontend URL
+   - `NODE_ENV=production`
 6. Deploy
 
 ## Environment Variables
@@ -129,14 +151,11 @@ For Gmail, use an App Password (not your regular password).
 |----------|-------------|----------|
 | `PORT` | Server port (default: 5000) | No |
 | `NODE_ENV` | Environment (development/production) | No |
-| `MONGO_URI` | MongoDB connection string | Yes |
+| `MONGO_URI` | MongoDB connection string | **Yes** |
 | `FRONTEND_URL` | Frontend URL for CORS | No |
-| `EMAIL_HOST` | SMTP host | Yes |
-| `EMAIL_PORT` | SMTP port | Yes |
-| `EMAIL_USER` | SMTP username | Yes |
-| `EMAIL_PASS` | SMTP password | Yes |
-| `EMAIL_FROM` | Sender email | No |
-| `EMAIL_TO` | Recipient email | No |
+| `RESEND_API_KEY` | Resend API key | **Yes** (for email) |
+| `EMAIL_FROM` | Verified sender address | **Yes** (for email) |
+| `EMAIL_TO` | Recipient email | **Yes** (for email) |
 
 ## Project Structure
 

@@ -19,6 +19,33 @@ function getResendClient() {
 }
 
 /**
+ * Verify Resend API key is valid without sending an email.
+ * Uses domains.list() which is available in all Resend SDK versions.
+ */
+export async function verifyEmailConnection() {
+  try {
+    const client = getResendClient();
+
+    if (!client) {
+      return false;
+    }
+
+    const { data, error } = await client.domains.list();
+
+    if (error) {
+      console.error('Resend API key verification failed:', error.message);
+      return false;
+    }
+
+    console.log('Resend API key verified successfully');
+    return true;
+  } catch (error) {
+    console.error('Resend API key verification failed:', error.message);
+    return false;
+  }
+}
+
+/**
  * Prevent sensitive information from appearing in logs.
  */
 function sanitizeError(error) {
@@ -277,41 +304,5 @@ ${formattedDate}
     });
 
     throw error;
-  }
-}
-
-/**
- * Verify Resend API connection.
- */
-export async function verifyEmailConnection() {
-  try {
-    const client = getResendClient();
-
-    if (!client) {
-      return false;
-    }
-
-    const { data, error } = await client.emails.send({
-      from: env.EMAIL_FROM,
-      to: [env.EMAIL_TO],
-      subject: 'Portfolio Backend - Connection Test',
-      text: 'This is a test email to verify the Resend API connection.',
-    });
-
-    if (error) {
-      console.error('Resend connection test failed:', sanitizeError(error));
-      return false;
-    }
-
-    console.log('Resend connection verified successfully');
-
-    return true;
-  } catch (error) {
-    console.error(
-      'Resend connection failed:',
-      sanitizeError(error)
-    );
-
-    return false;
   }
 }
